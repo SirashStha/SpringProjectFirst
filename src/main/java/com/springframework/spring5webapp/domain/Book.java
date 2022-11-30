@@ -1,7 +1,6 @@
 package com.springframework.spring5webapp.domain;
 
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +11,10 @@ public class Book {
     private Long id;
     private  String title;
     private String isbn;
+
+    @ManyToOne
+    private Publisher publisher;
+
     @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name ="author)id"))
     private Set<Author> authors = new HashSet<>();
@@ -23,6 +26,18 @@ public class Book {
         this.title = title;
         this.isbn = isbn;
 //        this.authors = authors;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     public long getId() {
@@ -79,6 +94,6 @@ public class Book {
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return id != null ? id.hashCode() : 0;
     }
 }
